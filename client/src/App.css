@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.wrapper {
+  height: 100vh;
+  display: flex;
+}
+
+.trivia {
+  width: 75%;
+  background-size: cover;
+  background-position: center;
+  object-fit: cover;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.trivia .timer {
+  position: fixed;
+  top: 40%;
+  left: 10%;
+  border: 5px solid white;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.trivia .trivia-wrapper {
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.trivia .title {
+  width: 94%;
+  height: 100px;
+  background: linear-gradient(to bottom, #00065b, #000000);
+  border: 2px solid white;
+  border-radius: 10px;
+  margin: 0 auto;
+  padding: 24px 40px;
+  font-size: large;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trivia .answers {
+  width: 80%;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: calc(50% - 10px) calc(50% - 10px);
+  gap: 20px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.trivia .answers .item {
+  padding: 14px 20px;
+  border: 2px solid white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.trivia .answers .item:hover {
+  background-color: #0011ff;
+}
+
+.trivia .answers .item.correct {
+  background-color: green;
+}
+
+.trivia .answers .item.wrong {
+  background-color: crimson;
+}
+
+.trivia .trivia-end {
+  font-size: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  height: 100%;
+}
+
+.trivia .play-again {
+  width: fit-content;
+  padding: 20px 40px;
+  border: 2px solid white;
+  border-radius: 10px;
+  background-color: #00065b;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.pyramid {
+  width: 25%;
+  background-color: #00065b;
+  color: white;
+  padding: 20px;
+}
+
+.money-list {
+  padding: 0;
+  list-style: none;
+}
+
+.money-list .item {
+  width: 100%;
+  padding: 1vh 20px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  gap: 40px;
+  font-size: 18px;
+}
+
+.money-list .item span:first-child {
+  width: 40px;
+}
+
+.money-list .item.active {
+  background-color: #0011ff;
+}
