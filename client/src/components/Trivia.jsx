@@ -4,38 +4,52 @@ import useSound from "use-sound";
 import letsPlaySound from "../assets/sounds/play.mp3";
 import correctAnswerSound from "../assets/sounds/correct.mp3";
 import wrongAnswerSound from "../assets/sounds/wrong.mp3";
+import finalAnswerSound from "../assets/sounds/final-answer.mp3";
 
-const Trivia = ({ questions, setStop, questionNumber, setQuestionNumber }) => {
+const Trivia = ({
+  questions,
+  setStop,
+  questionNumber,
+  setQuestionNumber,
+  waitMusic,
+  waitFuncs,
+  backgroundMusicFuncs,
+}) => {
   const [question, setQuestion] = useState();
   const [selectedAnswer, setSelectedAnswer] = useState();
   const [answerClass, setAnswerClass] = useState();
 
   const [letsPlay] = useSound(letsPlaySound);
-  const [correct] = useSound(correctAnswerSound);
-  const [wrong] = useSound(wrongAnswerSound);
+  const [correctAnswer] = useSound(correctAnswerSound);
+  const [wrongAnswer] = useSound(wrongAnswerSound);
+  const [finalAnswer, finalAnswerFuncs] = useSound(finalAnswerSound);
 
   useEffect(() => {
+    waitFuncs.stop();
     letsPlay();
   }, [letsPlay]);
 
   const delay = (duration, callback) => {
     setTimeout(() => {
-        callback();
+      callback();
     }, duration);
-  }
-  
+  };
+
   const handleClickAnswer = (answer) => {
     setSelectedAnswer(answer);
     if (question.answers[answer].correct) {
       delay(1000, () => {
         setAnswerClass("correct");
-        correct();
+        correctAnswer();
 
         delay(2000, () => {
           if (questionNumber + 1 <= questions.length) {
             setQuestionNumber(questionNumber + 1);
           } else {
             setStop(true);
+            waitMusic();
+            finalAnswerFuncs.stop();
+            backgroundMusicFuncs.stop();
           }
           setAnswerClass(null);
           setSelectedAnswer(null);
@@ -44,21 +58,30 @@ const Trivia = ({ questions, setStop, questionNumber, setQuestionNumber }) => {
     } else {
       delay(1000, () => {
         setAnswerClass("wrong");
-        wrong();
+        wrongAnswer();
 
         delay(2000, () => {
           setAnswerClass(null);
           setSelectedAnswer(null);
           setStop(true);
+          waitMusic();
+          finalAnswerFuncs.stop();
+          backgroundMusicFuncs.stop();
         });
       });
     }
   };
 
   useEffect(() => {
-    const nextQuestion = questions?.find(q => q.id === questionNumber);
-    nextQuestion.answers = nextQuestion.answers.sort((a, b) => 0.5 - Math.random(4));
+    const nextQuestion = questions?.find((q) => q.id === questionNumber);
+    nextQuestion.answers = nextQuestion.answers.sort(
+      (a, b) => 0.5 - Math.random(4)
+    );
     setQuestion(nextQuestion);
+    if (questionNumber === questions.length) {
+      finalAnswer();
+      backgroundMusicFuncs.stop();
+    }
   }, [questionNumber]);
 
   return (

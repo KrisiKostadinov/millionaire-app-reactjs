@@ -6,6 +6,7 @@ import Trivia from "./components/Trivia";
 import background from "./assets/images/background.jpg";
 import { pyramid, questions } from "./constants";
 import music1 from "./assets/sounds/music-1.mp3";
+import wait from "./assets/sounds/wait.mp3";
 
 function App() {
   const [_stop, setStop] = useState(false);
@@ -13,12 +14,13 @@ function App() {
   const [questionNumber, setQuestionNumber] = useState(1);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
 
-  const [play, { stop }] = useSound(music1);
+  const [backgroundMusic, backgroundMusicFuncs] = useSound(music1);
+  const [waitMusic, waitFuncs] = useSound(wait);
 
   useEffect(() => {
-    stop();
-    play();
-  }, [play]);
+    backgroundMusicFuncs.stop();
+    backgroundMusic();
+  }, [backgroundMusic]);
 
   useEffect(() => {
     pyramid.reverse();
@@ -28,8 +30,9 @@ function App() {
     setEarned(0);
     setQuestionNumber(1);
     setStop(false);
-    stop();
-    play();
+    backgroundMusicFuncs.stop();
+    waitFuncs.stop();
+    backgroundMusic();
   };
 
   useEffect(() => {
@@ -58,6 +61,8 @@ function App() {
                 setStop={setStop}
                 questionNumber={questionNumber}
                 selectedAnswer={selectedAnswer}
+                waitMusic={waitMusic}
+                backgroundMusicFuncs={backgroundMusicFuncs}
               />
             </div>
             <Trivia
@@ -67,6 +72,9 @@ function App() {
               setQuestionNumber={setQuestionNumber}
               selectedAnswer={selectedAnswer}
               setSelectedAnswer={setSelectedAnswer}
+              waitMusic={waitMusic}
+              waitFuncs={waitFuncs}
+              backgroundMusicFuncs={backgroundMusicFuncs}
             />
           </>
         )}
